@@ -1,0 +1,151 @@
+{% comment %} {% extends "admin/base.html" %} {% endcomment %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --primary-color: #1a73e8;
+        --secondary-color: #4285f4;
+    }
+    
+    #header {
+        background: var(--primary-color);
+        color: #fff;
+    }
+    
+    #branding h1 {
+        color: #fff;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background: var(--secondary-color);
+    }
+    
+    div.breadcrumbs {
+        background: var(--secondary-color);
+    }
+    
+    a:link, a:visited {
+        color: var(--primary-color);
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: var(--primary-color);
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+        background: var(--secondary-color);
+    }
+    
+    #user-tools a:focus, #user-tools a:hover {
+        border-bottom-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    .selector-chosen h2 {
+        background: var(--secondary-color) !important;
+    }
+    
+    .calendar td.selected a {
+        background: var(--primary-color) !important;
+    }
+    
+    .calendar td a:focus, .timelist a:focus,
+    .calendar td a:hover, .timelist a:hover {
+        background: var(--secondary-color) !important;
+    }
+    
+    #changelist-filter li.selected a {
+        color: var(--primary-color) !important;
+    }
+    
+    fieldset.collapsed .collapse-toggle {
+        color: var(--primary-color) !important;
+    }
+    
+    .inline-related h3 span.delete label {
+        color: var(--primary-color);
+    }
+    
+    .inline-related h3 span.delete label:hover {
+        color: var(--secondary-color);
+    }
+    
+    /* Custom footer styling */
+    #footer {
+        padding: 20px 40px;
+        background: #f8f9fa;
+        color: #666;
+        text-align: center;
+        border-top: 1px solid #ddd;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Gas Utility Service Administration
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<div class="custom-menu-item">
+    <a href="/" target="_blank">View Site</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div id="footer">
+    <p>&copy; {% now "Y" %} Gas Utility Service. All rights reserved.</p>
+    <p>Version 1.0</p>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add a custom welcome message
+        var userTools = document.getElementById('user-tools');
+        if (userTools) {
+            var welcomeMsg = document.createElement('span');
+            welcomeMsg.textContent = 'Welcome to the Gas Utility Service Admin Panel | ';
+            welcomeMsg.style.marginRight = '10px';
+            userTools.insertBefore(welcomeMsg, userTools.firstChild);
+        }
+
+        // Add a back-to-top button
+        var backToTopBtn = document.createElement('button');
+        backToTopBtn.textContent = 'Back to Top';
+        backToTopBtn.style.position = 'fixed';
+        backToTopBtn.style.bottom = '20px';
+        backToTopBtn.style.right = '20px';
+        backToTopBtn.style.display = 'none';
+        backToTopBtn.style.padding = '10px';
+        backToTopBtn.style.backgroundColor = var(--primary-color);
+        backToTopBtn.style.color = '#fff';
+        backToTopBtn.style.border = 'none';
+        backToTopBtn.style.borderRadius = '5px';
+        backToTopBtn.style.cursor = 'pointer';
+
+        document.body.appendChild(backToTopBtn);
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Service Request - Gas Utility Service{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Submit a Service Request</h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        
+        <div>
+            <label for="{{ form.request_type.id_for_label }}" class="block text-sm font-medium text-gray-700">Request Type</label>
+            {{ form.request_type }}
+        </div>
+
+        <div>
+            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">Description</label>
+            {{ form.description }}
+        </div>
+
+        <div>
+            <label for="{{ form.attachment.id_for_label }}" class="block text-sm font-medium text-gray-700">Attachment (optional)</label>
+            {{ form.attachment }}
+        </div>
+
+        {% if form.errors %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Please correct the following errors:</strong>
+                <ul class="list-disc list-inside">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="flex justify-center">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Submit Request
+            </button>
+        </div>
+    </form>
+</div>
+<style>
+    /* Style for form inputs */
+input[type="text"],
+input[type="email"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #6366f1;
+    border-color: #6366f1;
+}
+
+/* Style for file input */
+input[type="file"] {
+    display: none;
+}
+
+/* Additional styles for better spacing and alignment */
+.space-y-2 > * + * {
+    margin-top: 0.5rem;
+}
+
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Track Service Requests - Gas Utility Service{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all hover:scale-105 duration-300">
+        <div class="bg-blue-600 text-white p-6">
+            <h1 class="text-3xl font-extrabold text-center flex items-center justify-center">
+                <svg class="w-10 h-10 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Your Service Requests
+            </h1>
+        </div>
+
+        <div class="p-8">
+            {% if user_requests %}
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-blue-100 text-blue-800 uppercase text-sm leading-normal">
+                                <th class="py-4 px-6 text-left rounded-tl-lg">Request Type</th>
+                                <th class="py-4 px-6 text-left">Status</th>
+                                <th class="py-4 px-6 text-left">Submitted</th>
+                                <th class="py-4 px-6 text-left rounded-tr-lg">Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            {% for request in user_requests %}
+                                <tr class="border-b border-gray-200 hover:bg-blue-50 transition duration-200 ease-in-out">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center">
+                                            <svg class="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <span class="font-semibold">{{ request.get_request_type_display }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        {% if request.status == 'PENDING' %}
+                                            <span class="bg-yellow-100 text-yellow-800 py-1 px-3 rounded-full text-xs font-medium">
+                                                {{ request.get_status_display }}
+                                            </span>
+                                        {% elif request.status == 'COMPLETED' %}
+                                            <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-xs font-medium">
+                                                {{ request.get_status_display }}
+                                            </span>
+                                        {% elif request.status == 'IN_PROGRESS' %}
+                                            <span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs font-medium">
+                                                {{ request.get_status_display }}
+                                            </span>
+                                        {% else %}
+                                            <span class="bg-red-100 text-red-800 py-1 px-3 rounded-full text-xs font-medium">
+                                                {{ request.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="py-4 px-6 text-sm text-gray-600">
+                                        {{ request.created_at|date:"M d, Y H:i" }}
+                                    </td>
+                                    <td class="py-4 px-6 text-sm text-gray-600">
+                                        {{ request.updated_at|date:"M d, Y H:i" }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-12 bg-blue-50 rounded-lg">
+                    <svg class="mx-auto h-24 w-24 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 005.656 0m-5.656 0a4 4 0 005.656 0m-5.656 0a4 4 0 005.656 0m5.656 0a4 4 0 01-5.656 0M3 20.5V14a2 2 0 012-2h14a2 2 0 012 2v6.5m-17-6.5h17"></path>
+                    </svg>
+                    <p class="mt-4 text-xl text-gray-600 font-semibold">No service requests submitted yet</p>
+                    <p class="text-sm text-gray-500 mt-2">Start by submitting your first service request</p>
+                </div>
+            {% endif %}
+
+            <div class="mt-8 flex justify-center">
+                <a href="{% url 'submit_request' %}" class="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition transform hover:scale-105 duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Submit New Request
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

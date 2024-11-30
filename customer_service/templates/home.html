@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Gas Utility Service{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to Gas Utility Service</h1>
+            <p class="subtitle">Reliable, Efficient, and Customer-Focused Utility Management</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>Easy Request Submission</h3>
+                <p>Submit service requests quickly and conveniently online</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tasks"></i>
+                <h3>Real-Time Tracking</h3>
+                <p>Monitor the status of your requests in real-time</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>Customer support always ready to assist you</p>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="user-dashboard">
+            <div class="welcome-banner">
+                <h2>Hello, {{ user.username }}!</h2>
+                <p>What would you like to do today?</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'submit_request' %}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Submit New Request
+                </a>
+                <a href="{% url 'track_request' %}" class="btn btn-secondary">
+                    <i class="fas fa-search"></i> Track Existing Requests
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="cta-section">
+            <h2>Get Started with Gas Utility Service</h2>
+            <p>Create an account to manage your service requests efficiently</p>
+            <div class="auth-actions">
+                <a href="{% url 'login' %}" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> Register
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .home-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 15px;
+    }
+
+    .hero-section {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .hero-content h1 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content .subtitle {
+        color: var(--secondary-color);
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background-color: var(--white-color);
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .feature-card i {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .user-dashboard, .cta-section {
+        background-color: var(--white-color);
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-banner h2 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .action-buttons, .auth-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+    }
+
+    .btn-primary:hover {
+        background-color: color-mix(in srgb, var(--primary-color) 80%, white);
+    }
+
+    .btn-secondary {
+        background-color: var(--secondary-color);
+        color: var(--white-color);
+    }
+
+    .btn-secondary:hover {
+        background-color: color-mix(in srgb, var(--secondary-color) 80%, white);
+    }
+
+    @media (max-width: 768px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
