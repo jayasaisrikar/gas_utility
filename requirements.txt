@@ -1,0 +1,6 @@
+Django
+gunicorn
+pillow
+psycopg2
+djangorestframework
+python-dotenv
